@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <parent>
+    <artifactId>alibaba-example</artifactId>
+    <groupId>com.github.daggerok.alibaba</groupId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>sentinel-dashboard</artifactId>
+  <packaging>pom</packaging>
+
+  <properties>
+    <sentinel.dashboard.server.port>8888</sentinel.dashboard.server.port>
+    <!--<sentinel.dashboard.version>1.4.0</sentinel.dashboard.version>-->
+    <!--<sentinel.dashboard.lang/>-->
+    <sentinel.dashboard.version>1.3.0</sentinel.dashboard.version>
+    <sentinel.dashboard.lang>-en</sentinel.dashboard.lang>
+    <sentinel.filename>sentinel-dashboard-${sentinel.dashboard.version}${sentinel.dashboard.lang}.jar</sentinel.filename>
+  </properties>
+
+  <build>
+    <!--<defaultGoal>clean package site</defaultGoal>-->
+    <defaultGoal>package site</defaultGoal>
+    <plugins>
+      <plugin><!-- download sentinel-dashboard -->
+        <groupId>com.googlecode.maven-download-plugin</groupId>
+        <artifactId>download-maven-plugin</artifactId>
+        <version>1.4.1</version>
+        <executions><!-- ./mvnw com.googlecode.maven-download-plugin:download-maven-plugin:help -->
+          <execution>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>wget</goal>
+            </goals>
+            <configuration>
+              <url>https://github.com/alibaba/Sentinel/releases/download/${sentinel.dashboard.version}/${sentinel.filename}</url>
+              <outputFileName>${sentinel.filename}</outputFileName>
+              <outputDirectory>${project.build.directory}/libs</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin><!-- run sentinel-dashboard jar spring-boot app -->
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <configuration>
+          <async>false</async>
+          <keepAlive>true</keepAlive>
+          <executable>java</executable>
+          <arguments>
+            <argument>-jar</argument>
+            <argument>${project.build.directory}/libs/${sentinel.filename}</argument>
+            <argument>--server.port=${sentinel.dashboard.server.port}</argument>
+            <argument>--csp.sentinel.dashboard.server=localhost:${sentinel.dashboard.server.port}</argument>
+            <argument>--project.name=sentinel-dashboard</argument>
+            <argument>--csp.sentinel.log.dir=${project.build.directory}/logs</argument>
+            <argument>--csp.sentinel.log.use.pid=true</argument>
+            <argument>--csp.sentinel.heartbeat.interval.ms=2000</argument>
+            <argument>--csp.sentinel.api.port=${sentinel.dashboard.server.port}</argument>
+            <argument>--spring.output.ansi.enabled=always</argument>
+          </arguments>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>site</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin><!-- just to avoid annoying warnings... -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.9</version>
+      </plugin>
+    </plugins>
+  </build>
+</project>

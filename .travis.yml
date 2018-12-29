@@ -1,0 +1,55 @@
+notifications:
+  email: false
+
+git:
+  depth: false
+  quiet: true
+
+language: java
+jdk: oraclejdk8
+node_js: lts/*
+
+#service:
+#  - docker
+
+addons:
+  apt:
+    packages:
+      - bash
+      - curl
+      - tree
+      - jq
+      - python-pip
+
+env:
+  global:
+    - TERM=dumb
+    - SENTINEL_PORT=8888
+#    - ZOOKEEPER_PORT=2181
+#    - ZOOKEEPER_PEERS=localhost:${ZOOKEEPER_PORT}
+#    - KAFKA_HOME=/tmp/kafka
+#    - KAFKA_PORT=9092
+#    - KAFKA_PEERS=localhost:${KAFKA_PORT}
+
+install: true
+before_install:
+  - sudo apt-get update -yqq
+  #  - sudo pip install docker-compose httpie >/dev/null 2>&1
+  #
+  - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
+  - stop_any 80 8000 8080
+#  #
+#  - wget https://www.apache.org/dist/kafka/2.1.0/kafka_2.12-2.1.0.tgz -O ${KAFKA_HOME}.tgz
+#  - mkdir -p ${KAFKA_HOME} && tar xzf ${KAFKA_HOME}.tgz -C ${KAFKA_HOME} --strip-components 1
+#  - bash -c "${KAFKA_HOME}/bin/zookeeper-server-start.sh ${KAFKA_HOME}/config/zookeeper.properties &"
+#  - wait_for ${ZOOKEEPER_PORT}
+#  - bash -c "${KAFKA_HOME}/bin/kafka-server-start.sh ${KAFKA_HOME}/config/server.properties &"
+#  - wait_for ${KAFKA_PORT}
+#  - bash -c "${KAFKA_HOME}/bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic bank-account-domain-events-kafka-template-topic.1 --zookeeper ${ZOOKEEPER_PEERS}"
+
+script:
+  - ./mvnw -U
+  - ./mvnw -pl :sentinel-dashboard &
+  - wait_for  ${SENTINEL_PORT}
+  - echo okay...
+  - stop_any ${SENTINEL_PORT}

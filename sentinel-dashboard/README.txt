@@ -1,0 +1,3 @@
+
+./mvnw -pl :sentinel-dashboard
+
