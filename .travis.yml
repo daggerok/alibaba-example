@@ -54,7 +54,7 @@ script:
   - wait_for ${SENTINEL_PORT}
   - java -jar ./my-app/target/*.jar &
   - wait_for 8080
-  - http :8080/hey
-  - http :8080/hey
-  - http :8080/hey
+  - http :8080/hello
+  - http :8080/hello
+  - http :8080/hello
   - stop_any ${SENTINEL_PORT}
