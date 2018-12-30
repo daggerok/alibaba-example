@@ -34,8 +34,9 @@ env:
 install: true
 before_install:
   - sudo apt-get update -yqq
-  #  - sudo pip install docker-compose httpie >/dev/null 2>&1
-  #
+  - sudo pip install httpie >/dev/null 2>&1
+#  - sudo pip install docker-compose httpie >/dev/null 2>&1
+#  #
   - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
   - stop_any 80 8000 8080
 #  #
@@ -50,6 +51,10 @@ before_install:
 script:
   - ./mvnw -U
   - ./mvnw -pl :sentinel-dashboard &
-  - wait_for  ${SENTINEL_PORT}
-  - echo okay...
+  - wait_for ${SENTINEL_PORT}
+  - java -jar ./my-app/target/*.jar &
+  - wait_for 8080
+  - http :8080/hey
+  - http :8080/hey
+  - http :8080/hey
   - stop_any ${SENTINEL_PORT}
