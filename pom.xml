@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.daggerok.alibaba</groupId>
   <artifactId>alibaba-example</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.1</version>
   <packaging>pom</packaging>
 
   <properties>
@@ -26,7 +26,7 @@
   <scm>
     <url>https://github.com/daggerok/alibaba-example</url>
     <connection>scm:git:https://github.com/daggerok/alibaba-example.git</connection>
-    <tag>master</tag>
+    <tag>v1.0.1</tag>
   </scm>
 
   <build>
