@@ -23,21 +23,20 @@ public class MyApp {
 
 @RestController
 class HelloResource {
-  @GetMapping("/hey")
-  public ResponseEntity hey() {
-    return ResponseEntity.ok("hey!");
+  @GetMapping("/hello")
+  public ResponseEntity hello() {
+    return ResponseEntity.ok("hello!");
   }
 }
 
 @Configuration
-class HeyConfig {
-
+class HelloConfig {
   @EventListener(ApplicationStartedEvent.class)
-  public void secureHey() {
+  public void secureHello() {
     final FlowRule rule = new FlowRule()
         .setGrade(RuleConstant.FLOW_GRADE_QPS)
         .setCount(2);
-    rule.setResource("/hey")
+    rule.setResource("/hello")
         .setLimitApp(RuleConstant.LIMIT_APP_DEFAULT);
     FlowRuleManager.loadRules(Collections.singletonList(rule));
   }
