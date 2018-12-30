@@ -25,8 +25,28 @@
     <module>my-app</module>
   </modules>
 
+  <scm>
+    <url>https://github.com/daggerok/alibaba-example</url>
+    <connection>scm:git:https://github.com/daggerok/alibaba-example.git</connection>
+    <tag>master</tag>
+  </scm>
+
   <build>
     <defaultGoal>clean package</defaultGoal>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.3</version>
+        <configuration>
+          <tagNameFormat>v@{project.version}</tagNameFormat>
+          <autoVersionSubmodules>true</autoVersionSubmodules>
+          <!-- releaseProfiles configuration will actually force a Maven profile
+            – the `releases` profile – to become active during the Release process. -->
+          <goals>install</goals><!-- just don't deploy... -->
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 
 </project>
