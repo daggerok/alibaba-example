@@ -4,17 +4,21 @@
   <parent>
     <groupId>com.github.daggerok.alibaba</groupId>
     <artifactId>spring-boot-parent</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.8-SNAPSHOT</version>
     <relativePath>../spring-boot-parent/pom.xml</relativePath>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>my-app</artifactId>
+  <artifactId>03-url-block-handler</artifactId>
 
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-alibaba-sentinel</artifactId>
     </dependency>
   </dependencies>
 

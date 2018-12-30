@@ -8,3 +8,5 @@ run sentinel dashboard jar:
 
 or:
 ./mvnw -pl :sentinel-dashboard
+
+see: https://www.youtube.com/watch?v=B60y65wexgI

@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collections;
 
 @SpringBootApplication
-public class MyApp {
+public class DefaultFlowLimitingApp {
   public static void main(String[] args) {
-    SpringApplication.run(MyApp.class);
+    SpringApplication.run(DefaultFlowLimitingApp.class);
   }
 }
 

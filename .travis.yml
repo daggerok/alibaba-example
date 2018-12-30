@@ -9,9 +9,6 @@ language: java
 jdk: oraclejdk8
 node_js: lts/*
 
-#service:
-#  - docker
-
 addons:
   apt:
     packages:
@@ -20,7 +17,9 @@ addons:
       - tree
       - jq
       - python-pip
-
+#      - docker-ce
+#service:
+#  - docker
 env:
   global:
     - TERM=dumb
@@ -33,12 +32,7 @@ env:
 
 install: true
 before_install:
-  - sudo apt-get update -yqq
-  - sudo pip install httpie >/dev/null 2>&1
 #  - sudo pip install docker-compose httpie >/dev/null 2>&1
-#  #
-  - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
-  - stop_any 80 8000 8080
 #  #
 #  - wget https://www.apache.org/dist/kafka/2.1.0/kafka_2.12-2.1.0.tgz -O ${KAFKA_HOME}.tgz
 #  - mkdir -p ${KAFKA_HOME} && tar xzf ${KAFKA_HOME}.tgz -C ${KAFKA_HOME} --strip-components 1
@@ -47,14 +41,46 @@ before_install:
 #  - bash -c "${KAFKA_HOME}/bin/kafka-server-start.sh ${KAFKA_HOME}/config/server.properties &"
 #  - wait_for ${KAFKA_PORT}
 #  - bash -c "${KAFKA_HOME}/bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic bank-account-domain-events-kafka-template-topic.1 --zookeeper ${ZOOKEEPER_PEERS}"
+  - sudo apt-get update -yqq
+  - sudo pip install httpie >/dev/null 2>&1
+  #
+  - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
+  - stop_any 80 8000 8080
 
 script:
   - ./mvnw -U
-  - ./mvnw -pl :sentinel-dashboard &
+  - (./mvnw -pl :sentinel-dashboard &) || true
   - wait_for ${SENTINEL_PORT}
-  - java -jar ./my-app/target/*.jar &
-  - wait_for 8080
-  - http :8080/hello
-  - http :8080/hello
-  - http :8080/hello
+  #
+  - SERVER_PORT=8001 java -jar ./01-default-flow-limiting/target/*.jar &
+  - wait_for 8001
+  - http :8001/hello
+  - http :8001/hello
+  - http :8001/hello || true
+    - sleep 1
+  - stop_any 8001
+  #
+  - SERVER_PORT=8002 java -jar ./02-fallback-block-page/target/*.jar &
+  - wait_for 8002
+  - http :8002/hello
+  - http :8002/hello
+  - http :8002/hello || true
+    - sleep 1
+  - stop_any 8002
+  #
+  - SERVER_PORT=8003 java -jar ./03-url-block-handler/target/*.jar &
+  - wait_for 8003
+  - http :8003/hello
+  - http :8003/hello
+  - http :8003/hello || true
+  - sleep 1
+  - stop_any 8003
+
+after_script:
   - stop_any ${SENTINEL_PORT}
+
+cache:
+  pip: true
+  packages: true
+  directories:
+    - ${HOME}/.m2

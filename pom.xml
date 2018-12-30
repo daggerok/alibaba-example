@@ -4,23 +4,25 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.daggerok.alibaba</groupId>
   <artifactId>alibaba-example</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.8-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <properties>
-    <encoding>UTF-8</encoding>
-    <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
-
     <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
+
+    <encoding>UTF-8</encoding>
+    <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
   </properties>
 
   <modules>
     <module>sentinel-dashboard</module>
     <module>spring-boot-parent</module>
-    <module>my-app</module>
+    <module>01-default-flow-limiting</module>
+    <module>02-fallback-block-page</module>
+    <module>03-url-block-handler</module>
   </modules>
 
   <scm>

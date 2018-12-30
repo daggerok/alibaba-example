@@ -12,14 +12,10 @@
   <description>Parent project for Spring Boot</description>
   <groupId>com.github.daggerok.alibaba</groupId>
   <artifactId>spring-boot-parent</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.8-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <properties>
-    <encoding>UTF-8</encoding>
-    <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
-
     <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -28,6 +24,10 @@
     <spring.boot.version>2.1.1.RELEASE</spring.boot.version>
     <spring.cloud.version>Greenwich.RC2</spring.cloud.version>
     <spring.cloud.alibaba.version>0.2.0.RELEASE</spring.cloud.alibaba.version>
+
+    <encoding>UTF-8</encoding>
+    <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
   </properties>
 
   <dependencyManagement>
@@ -53,7 +53,7 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-
+      <!-- in java we trust -->
       <dependency>
         <groupId>io.vavr</groupId>
         <artifactId>vavr</artifactId>
@@ -66,7 +66,7 @@
         <scope>provided</scope>
         <optional>true</optional>
       </dependency>
-
+      <!-- kotlin -->
       <dependency>
         <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-stdlib</artifactId>
@@ -83,7 +83,7 @@
         <version>${kotlin.version}</version>
         <scope>test</scope>
       </dependency>
-
+      <!-- spock -->
       <dependency>
         <groupId>org.spockframework</groupId>
         <artifactId>spock-core</artifactId>
@@ -112,11 +112,12 @@
   </dependencyManagement>
 
   <dependencies>
+    <!--
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-alibaba-sentinel</artifactId>
     </dependency>
-    <!--<dependency>
+    <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-alibaba-nacos-config</artifactId>
     </dependency>
@@ -328,4 +329,8 @@
       </snapshots>
     </repository>
   </repositories>
+
+  <scm>
+    <tag>v1.0.3</tag>
+  </scm>
 </project>
