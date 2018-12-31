@@ -12,7 +12,7 @@
   <description>Parent project for Spring Boot</description>
   <groupId>com.github.daggerok.alibaba</groupId>
   <artifactId>spring-boot-parent</artifactId>
-  <version>1.0.8-SNAPSHOT</version>
+  <version>1.0.8</version>
   <packaging>pom</packaging>
 
   <properties>
@@ -331,6 +331,6 @@
   </repositories>
 
   <scm>
-    <tag>v1.0.3</tag>
+    <tag>v1.0.8</tag>
   </scm>
 </project>

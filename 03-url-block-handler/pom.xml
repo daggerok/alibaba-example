@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.github.daggerok.alibaba</groupId>
     <artifactId>spring-boot-parent</artifactId>
-    <version>1.0.8-SNAPSHOT</version>
+    <version>1.0.8</version>
     <relativePath>../spring-boot-parent/pom.xml</relativePath>
   </parent>
 
